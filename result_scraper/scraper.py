@@ -52,7 +52,7 @@ class Webscraper(threading.Thread):
                     self.__find_by_xpath(driver, '//*[@id="'+result_link+'"]').click()
                     name = self.__find_by_xpath(driver, '//*[@id="lblName"]').text
                     branch = self.__find_by_xpath(driver, '//*[@id="lblResultName"]').text
-                    subjects = self.__find_by_xpath(driver, '//*[@id="tblBasicDetail"]/table/tbody/tr[7]/td').text
+                    subjects = self.__find_by_xpath(driver, '//*[@id="tblBasicDetail"]/table/tbody/tr[8]/td').text
                     # remove commas
                     name = name.replace(",", "")
                     branch.replace(",", "")
