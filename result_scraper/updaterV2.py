@@ -153,8 +153,8 @@ class NewStudents(PreprocessData):
 def main():
     # student = NewStudents(1001, 2019, "reg", 'databaseactive.csv')
     # student.print_student()
-    marks = UpdateGradeCG(1010, 2018, "reg", 'databaseactive.csv')
-    marks.print_grades()
+    marks = UpdateGradeCG(1100, 2017, "reg", 'databaseactive.csv')
+    marks.print_cg()
 
 if __name__ == '__main__':
     main()

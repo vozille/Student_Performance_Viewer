@@ -1,4 +1,5 @@
 import time
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,9 +12,9 @@ import os
 i = 0
 driver = webdriver.Chrome()
 # the url of the post/comment
-driver.get('https://m.facebook.com/messages/thread/100005719363135/')
+driver.get('https://m.facebook.com/birthdays')
 
-while i < 20000: # the number of comments you want to post
+while i < 2: # the number of comments you want to post
     def find_by_xpath(locator):
         element = WebDriverWait(driver, 3).until(
             EC.presence_of_element_located((By.XPATH, locator))
@@ -22,8 +23,14 @@ while i < 20000: # the number of comments you want to post
 
     class FormPage(object):
         def fill_form(self):
-            find_by_xpath('//*[@id="composerInput"]').send_keys("fuck you and your spamming for the "+str(i+1) + " time")
-            find_by_xpath('//*[@id="u_0_5"]').click()
+            cnt = 1
+            while True:
+                try:
+                    res = find_by_xpath('//*[@id="events_card_list"]/article[2]/div/div/ul/li[' + str(cnt) + ']').text
+                    print res
+                    cnt += 1
+                except selenium.common.exceptions.TimeoutException:
+                    break
             time.sleep(1)
     if i == 0:
         # open your account, login with username and password

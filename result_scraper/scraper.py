@@ -78,9 +78,9 @@ def main():
     # dont know why this date works for everyone
     bday = date(1995, 1, 1)
     # start roll
-    i = 1501106000
+    i = 1301106000
     threads = []
-    while i < 1501106620:
+    while i < 1301106620:
         t = Webscraper(i, i + 140, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
         i += 140
