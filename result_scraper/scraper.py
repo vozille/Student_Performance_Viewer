@@ -41,32 +41,45 @@ class Webscraper(threading.Thread):
                     try:
                         # gets last link
                         list_links = driver.find_elements_by_xpath("//*[contains(text(), 'View Result')]")
+                        del list_links[0]
+                        result_links = []
                         # add more fine control if required
-                        result_link = list_links[-1].get_attribute('href')[25:60]
-                        result_link = result_link.replace("$", "_")
+                        while len(list_links) > 0:
+                            result_link = list_links[-1].get_attribute('href')[25:60]
+                            result_link = result_link.replace("$", "_")
+                            result_links.append(result_link)
+                            list_links.pop(-1)
                     except:
                         continue
-                    """
-                    The webpage has been loaded, do anything you want
-                    """
-                    self.__find_by_xpath(driver, '//*[@id="'+result_link+'"]').click()
-                    name = self.__find_by_xpath(driver, '//*[@id="lblName"]').text
-                    branch = self.__find_by_xpath(driver, '//*[@id="lblResultName"]').text
-                    subjects = self.__find_by_xpath(driver, '//*[@id="tblBasicDetail"]/table/tbody/tr[8]/td').text
-                    # remove commas
-                    name = name.replace(",", "")
-                    branch.replace(",", "")
-                    cnt += 1
-                    """
-                    What I am doing here is printing data so that i can save it later in a csv file
-                    And upload it later to a database
-                    """
-                    print str(cnt) + ', ' + name + ' ,' + branch + ' ,' + str(roll_num) + ' ,',
-                    subjects = subjects.split('\n')
-                    for k in subjects:
-                        res = k.replace(",", "")
-                        print res + ',',
-                    print
+                    # print result_links
+                    for result_link in result_links:
+                        """
+                        The webpage has been loaded, do anything you want
+                        """
+                        self.__find_by_xpath(driver, '//*[@id="'+result_link+'"]').click()
+                        name = self.__find_by_xpath(driver, '//*[@id="lblName"]').text
+                        branch = self.__find_by_xpath(driver, '//*[@id="lblResultName"]').text
+                        subjects = self.__find_by_xpath(driver, '//*[@id="tblBasicDetail"]/table/tbody/tr[8]/td').text
+                        # remove commas
+                        name = name.replace(",", "")
+                        branch.replace(",", "")
+                        branch = branch.split(',')
+                        cnt += 1
+                        """
+                        What I am doing here is printing data so that i can save it later in a csv file
+                        And upload it later to a database
+                        """
+                        # filter sem wise
+                        if '6th' not in branch[1]:
+                            continue
+                        print name + ' ,' + branch[0] + ' ,' + str(roll_num).strip(' ') + ',',
+                        subjects = subjects.split('\n')
+                        del subjects[0]
+                        for k in subjects:
+                            res = k.replace(",", "")
+                            res = res.replace(' *', "")
+                            print res + ',',
+                        print
                 except:
                     pass
             except:
@@ -78,12 +91,16 @@ def main():
     # dont know why this date works for everyone
     bday = date(1995, 1, 1)
     # start roll
-    i = 1301106000
+    start, end = 1301106000, 1301106600
+    if abs(start - end) > 1000:
+        raise Exception("Too many values to extract, use proper limits")
+    i = start
     threads = []
-    while i < 1301106620:
-        t = Webscraper(i, i + 140, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
+    while i < end:
+        increment = 140
+        t = Webscraper(i, i + increment, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
-        i += 140
+        i += increment
 
     for i in threads:
         i.start()
@@ -91,6 +108,8 @@ def main():
         time.sleep(6)
     for i in threads:
         i.join()
+    print
+    print
     print "Done "
 
 
