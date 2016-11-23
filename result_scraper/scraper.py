@@ -70,7 +70,7 @@ class Webscraper(threading.Thread):
                         And upload it later to a database
                         """
                         # filter sem wise
-                        if '6th' not in branch[1]:
+                        if '5th' not in branch[1]:
                             continue
                         print name + ' ,' + branch[0] + ' ,' + str(roll_num).strip(' ') + ',',
                         subjects = subjects.split('\n')
@@ -80,6 +80,7 @@ class Webscraper(threading.Thread):
                             res = res.replace(' *', "")
                             print res + ',',
                         print
+                        break
                 except:
                     pass
             except:
@@ -97,7 +98,7 @@ def main():
     i = start
     threads = []
     while i < end:
-        increment = 140
+        increment = 122
         t = Webscraper(i, i + increment, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
         i += increment

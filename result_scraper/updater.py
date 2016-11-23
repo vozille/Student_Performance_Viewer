@@ -12,7 +12,7 @@ sys.stdout = open('output.txt', 'w')
 # FIXME : code is horrible, rewrite it again
 # TODO : add documentation
 
-exam_id = 1002
+exam_id = 1003
 
 
 class PreprocessData:
@@ -179,13 +179,11 @@ def filter_data(data):
     roll = data[2]
     subjects = []
     i = 3
-    exam_id = 0
     while True:
         try:
             element = map(str, data[i].split(' '))
             element.pop(0)
             int(element[0])
-            exam_id = 1002  # started this new website at 1001
             i += 1
             subjects.append(tuple([element[1], element[-1], exam_id]))
         except ValueError:
@@ -303,6 +301,9 @@ def update_sgpa(start, end):
     :param start: start roll number
     :param end: end roll number
     """
+    if abs(start - end) > 1500:
+        raise Exception("Difference too large")
+        return
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
     cursor = conn.cursor()
     grade_dict = {'O': 10, 'E': 9, 'A': 8, 'B': 7, 'C': 6, 'D': 5, 'F': 2, 'M': 0, 'S': 0}
@@ -367,8 +368,8 @@ def update_cgpa(start, end):
         print 'UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";'
 
 def main():
-    update_cgpa(1301106000, 1301106700)
 
+    update_cgpa(1301106000, 1301106700)
     # separate
     # data = get_data("databaseactive.csv")
     # data.sort(key=itemgetter(2))
