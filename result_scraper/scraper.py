@@ -1,7 +1,7 @@
 import threading
 import time
 from datetime import date
-
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -69,9 +69,13 @@ class Webscraper(threading.Thread):
                         What I am doing here is printing data so that i can save it later in a csv file
                         And upload it later to a database
                         """
+                        output_files = {'First': 'o1.csv', '2nd':'o2.csv', '3rd':'o3.csv', '4th':'o4.csv', '5th':'o5.csv', '6th':'o6.csv', '7th':'o7.csv', '8th':'o8.csv'}
+                        for i in output_files:
+                            if i in branch[1]:
+                                sys.stdout = open(output_files[i], 'a')
                         # filter sem wise
-                        if '5th' not in branch[1]:
-                            continue
+                        # if '7th' not in branch[1]:
+                        #     continue
                         print name + ' ,' + branch[0] + ' ,' + str(roll_num).strip(' ') + ',',
                         subjects = subjects.split('\n')
                         del subjects[0]
@@ -80,7 +84,10 @@ class Webscraper(threading.Thread):
                             res = res.replace(' *', "")
                             print res + ',',
                         print
-                        break
+                        sys.stdout = sys.__stdout__
+                        print 'Done '+ str(roll_num).strip(' ')
+                        # uncomment to do semester wise scraping
+                        # break
                 except:
                     pass
             except:
@@ -88,17 +95,26 @@ class Webscraper(threading.Thread):
         driver.close()
 
 
+def clean():
+    output_files = {'First': 'o1.csv', '2nd': 'o2.csv', '3rd': 'o3.csv', '4th': 'o4.csv', '5th': 'o5.csv',
+                    '6th': 'o6.csv', '7th': 'o7.csv', '8th': 'o8.csv'}
+    for i in output_files:
+        sys.stdout = open(output_files[i], 'w')
+        sys.stdout = sys.__stdout__
+
+
 def main():
+    clean()
     # dont know why this date works for everyone
     bday = date(1995, 1, 1)
     # start roll
-    start, end = 1301106000, 1301106600
+    start, end = 1421106000, 1421106300
     if abs(start - end) > 1000:
         raise Exception("Too many values to extract, use proper limits")
     i = start
     threads = []
     while i < end:
-        increment = 122
+        increment = 60
         t = Webscraper(i, i + increment, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
         i += increment

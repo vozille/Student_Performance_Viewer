@@ -9,14 +9,14 @@ import random
 import string
 import os
 
-i = 0
+i = 1
 driver = webdriver.Chrome()
 # the url of the post/comment
-driver.get('https://m.facebook.com/birthdays')
+driver.get('https://web.whatsapp.com/')
 
-while i < 2: # the number of comments you want to post
+while i < 3: # the number of comments you want to post
     def find_by_xpath(locator):
-        element = WebDriverWait(driver, 3).until(
+        element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, locator))
         )
         return element
@@ -32,6 +32,19 @@ while i < 2: # the number of comments you want to post
                 except selenium.common.exceptions.TimeoutException:
                     break
             time.sleep(1)
+
+    class FormPage2(object):
+        def fill_form(self):
+            cnt = 1
+            while True:
+                try:
+                    res = find_by_xpath('//*[@id="main"]/footer/div[1]/div[1]/div/div[2]').send_keys('Sorry Digu for time ' + str(cnt))
+                    find_by_xpath('//*[@id="main"]/footer/div[1]/button[2]').click()
+                    print res
+                    cnt += 1
+                except selenium.common.exceptions.TimeoutException:
+                    break
+            time.sleep(1)
     if i == 0:
         # open your account, login with username and password
         # find_by_xpath('//*[@id="root"]/div[1]/div/a[2]').click()
@@ -39,7 +52,7 @@ while i < 2: # the number of comments you want to post
         find_by_xpath('//*[@id="u_0_2"]').send_keys('temporary12345')
         find_by_xpath('//*[@id="u_0_6"]').click()
     else:
-        FormPage().fill_form()
+        FormPage2().fill_form()
         #driver.get('https://m.facebook.com/messages/thread/100005719363135/')
     i += 1
 
