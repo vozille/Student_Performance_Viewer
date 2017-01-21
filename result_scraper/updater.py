@@ -12,7 +12,7 @@ sys.stdout = open('output.txt', 'w')
 # FIXME : code is horrible, rewrite it again
 # TODO : add documentation
 
-exam_id = 1012
+exam_id = None
 
 
 class PreprocessData:
@@ -89,7 +89,7 @@ class UpdateGradeCG(PreprocessData):
 class NewStudents(PreprocessData):
     def print_student(self):
         # you could directly connect with db if it's locally available
-        print 'INSERT IGNORE IGNORE INTO `student` (regno, name, branch_id, batch, cgpa, course) VALUES',
+        print 'INSERT IGNORE INTO `student` (regno, name, branch_id, batch, cgpa, course) VALUES',
         new_data = list(self.data)
         while len(new_data) > 0:
             print '("' + new_data[0][2] + '","' + new_data[0][0][1:-1] + '","' + self.__branch_helper(new_data[0][1]) + \
@@ -201,7 +201,7 @@ def filter_data(data):
 
 def insert_sgpa(data2):
     sys.stdout = open('output.txt', 'a')
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
 
     # you could directly connect with db if it's locally available
@@ -216,7 +216,7 @@ def insert_sgpa(data2):
 
 
 def insert_grades(data2):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     # you could directly connect with db if it's locally available
     sys.stdout = sys.__stdout__
 
@@ -229,14 +229,14 @@ def insert_grades(data2):
             if cursor.rowcount != 0:
                 sys.stdout = sys.__stdout__
                 sys.stdout = open('update.txt', 'a')
-                print 'UPDATE `score` SET `grade` = "' + data[2][0][1] + '" where student_id = "' + data[
+                print 'UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
                     0] + '" and subject_id ="' + data[2][0][0] + '";'
                 pass
             else:
                 sys.stdout = sys.__stdout__
                 sys.stdout = open('insert.txt', 'a')
                 print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
-                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1]) + '",' + str(
+                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '",' + str(
                     data[2][0][-1]) + ');'
             data[2].pop(0)
             cursor.close()
@@ -244,7 +244,7 @@ def insert_grades(data2):
 
 
 def insert_student(data,batch, student_type='reg'):
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
     q = 'SELECT * FROM student WHERE regno ="' + data[2] + '";'
     cursor.execute(q)
@@ -316,7 +316,7 @@ def update_sgpa(start, end):
     """
     if abs(start - end) > 1500:
         raise Exception("Difference too large")
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
     grade_dict = {'O': 10, 'E': 9, 'A': 8, 'B': 7, 'C': 6, 'D': 5, 'F': 2, 'M': 0, 'S': 0}
     for roll in range(start, end):
@@ -352,7 +352,7 @@ def update_sgpa(start, end):
 
 
 def porting():
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
     query = 'SELECT student_id, subject_id, grade from back_score'
     cursor.execute(query)
@@ -365,7 +365,7 @@ def porting():
 def update_cgpa(start, end):
     if abs(start - end) > 1000:
         raise Exception("Difference too large")
-    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='fakechintu', db='results_db')
+    conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
     for roll in range(start, end):
         query = ' SELECT sgpa, credits FROM exam WHERE student_id ="' + str(roll) + '";'
@@ -385,36 +385,38 @@ def update_cgpa(start, end):
 def main():
     global exam_id
     exam_id = 1002
+    input_path = './inputs/'
     output_files = OrderedDict()
-    output_files['First'] = 'o1.csv'
-    output_files['2nd'] = 'o2.csv'
-    output_files['3rd'] = 'o3.csv'
-    output_files['4th'] = 'o4.csv'
-    output_files['5th'] = 'o5.csv'
-    output_files['6th'] = 'o6.csv'
-    output_files['7th'] = 'o7.csv'
-    output_files['8th'] = 'o8.csv'
+    output_files['First'] = input_path + 'o1.csv'
+    output_files['2nd'] = input_path + 'o2.csv'
+    output_files['3rd'] = input_path + 'o3.csv'
+    output_files['4th'] = input_path + 'o4.csv'
+    output_files['5th'] = input_path + 'o5.csv'
+    output_files['6th'] = input_path + 'o6.csv'
+    output_files['7th'] = input_path + 'o7.csv'
+    output_files['8th'] = input_path + 'o8.csv'
     """
     Fill the exam ids carefully
     """
-    exam_ids = [345, 398, 473, 525, 1003, 1011]
+    exam_ids = [345, 398, 473, 525, 1003, 1011, 1015]
     # separate
-    update_cgpa(1301106000, 1301106650)
+    # update_cgpa(1301106000, 1301106650)
     # separate
-    # for f in output_files:
-    #     if len(exam_ids) == 0:
-    #         break
-    #     exam_id = exam_ids[0]
-    #     exam_ids.pop(0)
-    #     data = get_data(output_files[f])
-    #     data.sort(key=itemgetter(2))
-    #     # separate
-    #
-    #     newdata = []
-    #     for i in range(len(data)):
-    #         newdata.append(filter_data(data[i]))
-    #     insert_grades(newdata)
-    #     insert_sgpa(newdata)
+    for f in output_files:
+        if len(exam_ids) == 0:
+            break
+        exam_id = exam_ids[0]
+        exam_ids.pop(0)
+        data = get_data(output_files[f])
+        data.sort(key=itemgetter(2))
+        # separate
+
+        newdata = []
+        for i in range(len(data)):
+            newdata.append(filter_data(data[i]))
+        #insert_grades(newdata)
+        #either grade or sgpa
+        insert_sgpa(newdata)
 
         # separate
 

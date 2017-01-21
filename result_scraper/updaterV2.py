@@ -13,8 +13,16 @@ def find_by_xpath(driver, locator, timeout=2):
         ec.presence_of_element_located((By.XPATH, locator))
     )
     return element
-driver = webdriver.Chrome()
+driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
 driver.get('http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
-find_by_xpath(driver, '//*[@id="ddlSession"]').click()
-find_by_xpath(driver, '//*[@id="ddlSession"]/option[2]').click()
-find_by_xpath(driver, '//*[@id="ddlSession"]').click()
+
+i = 2
+while True:
+    try:
+        find_by_xpath(driver, '//*[@id="ddlSession"]').click()
+        find_by_xpath(driver, '//*[@id="ddlSession"]/option['+ str(i) +']').click()
+        find_by_xpath(driver, '//*[@id="ddlSession"]').click()
+        i += 1
+    except Exception:
+        break
+
