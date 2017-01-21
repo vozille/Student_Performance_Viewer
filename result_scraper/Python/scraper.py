@@ -97,7 +97,7 @@ class Webscraper(threading.Thread):
                                     'Eigth': 'o8.csv'}
                                 for i in output_files:
                                     if i in branch[1]:
-                                        sys.stdout = open('./inputs/' + output_files[i], 'a')
+                                        sys.stdout = open('../inputs/' + output_files[i], 'a')
                                 # filter sem wise
                                 # if '7th' not in branch[1]:
                                 #     continue
@@ -110,7 +110,7 @@ class Webscraper(threading.Thread):
                                     print res + ',',
                                 print
                                 sys.stdout = sys.__stdout__
-                                time.sleep(1)
+                                time.sleep(0.5)
                                 # uncomment to do semester wise scraping
                                 # break
                         except:
@@ -127,7 +127,7 @@ def clean():
     output_files = {'First': 'o1.csv', '2nd': 'o2.csv', '3rd': 'o3.csv', '4th': 'o4.csv', '5th': 'o5.csv',
                     '6th': 'o6.csv', '7th': 'o7.csv', '8th': 'o8.csv'}
     for i in output_files:
-        sys.stdout = open('./inputs/' + output_files[i], 'w')
+        sys.stdout = open('../inputs/' + output_files[i], 'w')
         sys.stdout = sys.__stdout__
 
 
@@ -136,13 +136,13 @@ def main():
     # dont know why this date works for everyone
     bday = date(1995, 1, 1)
     # start roll
-    start, end = 1301106001, 1301106600
+    start, end = 1421106001, 1421106230
     if abs(start - end) > 1000:
         raise Exception("Too many values to extract, use proper limits")
     i = start
     threads = []
     while i < end:
-        increment = 110
+        increment = 40
         t = Webscraper(i, i + increment, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
         i += increment

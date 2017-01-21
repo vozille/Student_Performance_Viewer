@@ -4,9 +4,9 @@ from operator import itemgetter
 from collections import OrderedDict
 import pymysql
 
-sys.stdout = open('update.txt', 'w')
-sys.stdout = open('insert.txt', 'w')
-sys.stdout = open('output.txt', 'w')
+sys.stdout = open('../sql_queries/update.txt', 'w')
+sys.stdout = open('../sql_queries/insert_grades.txt', 'w')
+sys.stdout = open('../sql_queries/insert_sgpa.txt', 'w')
 
 # TODO : be really careful about ID's
 # FIXME : code is horrible, rewrite it again
@@ -200,7 +200,7 @@ def filter_data(data):
 
 
 def insert_sgpa(data2):
-    sys.stdout = open('output.txt', 'a')
+    sys.stdout = open('../sql_queries/insert_sgpa.txt', 'a')
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
 
@@ -228,13 +228,13 @@ def insert_grades(data2):
             cursor.execute(query)
             if cursor.rowcount != 0:
                 sys.stdout = sys.__stdout__
-                sys.stdout = open('update.txt', 'a')
+                sys.stdout = open('../sql_queries/update.txt', 'a')
                 print 'UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
                     0] + '" and subject_id ="' + data[2][0][0] + '";'
                 pass
             else:
                 sys.stdout = sys.__stdout__
-                sys.stdout = open('insert.txt', 'a')
+                sys.stdout = open('../sql_queries/insert_grades.txt', 'a')
                 print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
                 print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '",' + str(
                     data[2][0][-1]) + ');'
@@ -346,7 +346,7 @@ def update_sgpa(start, end):
                 earned_credits += grade_dict[sub_grade] * credit / 10.0
                 total_credits += credit
             new_sgpa = round(earned_credits * 10.0 / total_credits, 2)
-            sys.stdout = open('update.txt', 'a')
+            sys.stdout = open('../sql_queries/update.txt', 'a')
             print 'UPDATE `exam` SET `sgpa` =' + str(new_sgpa) + ' WHERE `semester_id`= ' + str(
                 sem) + ' AND `student_id`="' + str(roll) + '";'
 
@@ -356,7 +356,7 @@ def porting():
     cursor = conn.cursor()
     query = 'SELECT student_id, subject_id, grade from back_score'
     cursor.execute(query)
-    sys.stdout = open('update.txt', 'a')
+    sys.stdout = open('../sql_queries/update.txt', 'a')
     for row in cursor:
         print 'UPDATE `score` SET `grade` = "' + row[2] + '" where student_id = "' + row[0] + '" and subject_id ="' + \
               row[1] + '";'
@@ -378,14 +378,14 @@ def update_cgpa(start, end):
             total_credits += float(row[1])
             credits_secured += float(row[0]) * float(row[1])
         cgpa = round(credits_secured/total_credits, 2)
-        sys.stdout = open('update.txt', 'a')
+        sys.stdout = open('../sql_queries/update.txt', 'a')
         print 'UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";'
 
 
 def main():
     global exam_id
     exam_id = 1002
-    input_path = './inputs/'
+    input_path = '../inputs/'
     output_files = OrderedDict()
     output_files['First'] = input_path + 'o1.csv'
     output_files['2nd'] = input_path + 'o2.csv'
@@ -398,9 +398,9 @@ def main():
     """
     Fill the exam ids carefully
     """
-    exam_ids = [345, 398, 473, 525, 1003, 1011, 1015]
+    exam_ids = [2017-1, 2017-2, 2017-3, 2017-4, 2017-5, 2017-6, 2017-7]
     # separate
-    # update_cgpa(1301106000, 1301106650)
+    update_cgpa(1421106000, 1421106250)
     # separate
     for f in output_files:
         if len(exam_ids) == 0:
@@ -414,7 +414,7 @@ def main():
         newdata = []
         for i in range(len(data)):
             newdata.append(filter_data(data[i]))
-        #insert_grades(newdata)
+        insert_grades(newdata)
         #either grade or sgpa
         insert_sgpa(newdata)
 
