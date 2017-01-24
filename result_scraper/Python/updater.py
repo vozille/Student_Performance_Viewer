@@ -1,18 +1,18 @@
 import csv
 import sys
-from operator import itemgetter
 from collections import OrderedDict
+from operator import itemgetter
+
 import pymysql
 
 sys.stdout = open('../sql_queries/update.txt', 'w')
 sys.stdout = open('../sql_queries/insert_grades.txt', 'w')
 sys.stdout = open('../sql_queries/insert_sgpa.txt', 'w')
 
+
 # TODO : be really careful about ID's
 # FIXME : code is horrible, rewrite it again
 # TODO : add documentation
-
-exam_id = None
 
 
 class PreprocessData:
@@ -46,8 +46,7 @@ class UpdateGradeCG(PreprocessData):
         while len(new_data) > 0:
             data = new_data[0]
             while len(data[2]) > 0:
-                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1]) + '",' + str(
-                    data[2][0][-1]) + '),'
+                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1]) + '","' + str(data[2][0][-1]) + '"),'
                 data[2].pop(0)
             new_data.pop(0)
 
@@ -57,13 +56,12 @@ class UpdateGradeCG(PreprocessData):
         print 'INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ',
         while len(new_data) > 0:
             data = new_data[0]
-            print '("' + data[0] + '",' + str(data[1]) + ',' + str(data[3]) + ',' + str(data[-1]) + '),'
+            print '("' + data[0] + '","' + str(data[1]) + '",' + str(data[3]) + ',' + str(data[-1]) + '),'
             new_data.pop(0)
 
     def filter_data(self):
         # more formatting of data wrt to our needs
         """
-        :param data: unformatted data
         :rtype: list
         """
         roll = self.data[2]
@@ -155,7 +153,7 @@ class NewStudents(PreprocessData):
 
 def get_data(input_file):
     """
-    :type input_file: object
+    :type input_file: filename
     """
     data = []
     with open(input_file, 'r') as csvFile:
@@ -207,11 +205,11 @@ def insert_sgpa(data2):
     # you could directly connect with db if it's locally available
     while len(data2) > 0:
         data = data2[0]
-        q = 'SELECT * FROM exam WHERE student_id ="' + data[0] + '" and semester_id =' + str(data[1])
+        q = 'SELECT * FROM exam WHERE student_id ="' + data[0] + '" and semester_id = "' + str(data[1]) +'"'
         cursor.execute(q)
         if cursor.rowcount == 0:
             print 'INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ',
-            print '("' + data[0] + '",' + str(data[1]) + ',' + str(data[3]) + ',' + str(data[-1]) + ');'
+            print '("' + data[0] + '","' + str(data[1]) + '",' + str(data[3]) + ',' + str(data[-1]) + ');'
         data2.pop(0)
 
 
@@ -236,14 +234,13 @@ def insert_grades(data2):
                 sys.stdout = sys.__stdout__
                 sys.stdout = open('../sql_queries/insert_grades.txt', 'a')
                 print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
-                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '",' + str(
-                    data[2][0][-1]) + ');'
+                print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(data[2][0][-1]) + '");'
             data[2].pop(0)
             cursor.close()
         data2.pop(0)
 
 
-def insert_student(data,batch, student_type='reg'):
+def insert_student(data, batch, student_type='reg'):
     conn = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
     cursor = conn.cursor()
     q = 'SELECT * FROM student WHERE regno ="' + data[2] + '";'
@@ -328,8 +325,7 @@ def update_sgpa(start, end):
         for row in cursor:
             sem_ids.append(row[0])
         for sem in sem_ids:
-            query = 'SELECT subject_id,grade FROM score where student_id ="' + str(roll) + '" and semester_id=' + str(
-                sem)
+            query = 'SELECT subject_id,grade FROM score where student_id ="' + str(roll) + '" and semester_id= "' + str(sem) + '"'
             cursor.execute(query)
             if cursor.rowcount == 0:
                 continue
@@ -347,8 +343,7 @@ def update_sgpa(start, end):
                 total_credits += credit
             new_sgpa = round(earned_credits * 10.0 / total_credits, 2)
             sys.stdout = open('../sql_queries/update.txt', 'a')
-            print 'UPDATE `exam` SET `sgpa` =' + str(new_sgpa) + ' WHERE `semester_id`= ' + str(
-                sem) + ' AND `student_id`="' + str(roll) + '";'
+            print 'UPDATE `exam` SET `sgpa` =' + str(new_sgpa) + ' WHERE `semester_id`= "' + str(sem) + '" AND `student_id`="' + str(roll) + '";'
 
 
 def porting():
@@ -377,14 +372,14 @@ def update_cgpa(start, end):
         for row in cursor:
             total_credits += float(row[1])
             credits_secured += float(row[0]) * float(row[1])
-        cgpa = round(credits_secured/total_credits, 2)
+        cgpa = round(credits_secured / total_credits, 2)
         sys.stdout = open('../sql_queries/update.txt', 'a')
         print 'UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";'
 
 
 def main():
     global exam_id
-    exam_id = 1002
+    exam_id = None
     input_path = '../inputs/'
     output_files = OrderedDict()
     output_files['First'] = input_path + 'o1.csv'
@@ -398,9 +393,10 @@ def main():
     """
     Fill the exam ids carefully
     """
-    exam_ids = [2017-1, 2017-2, 2017-3, 2017-4, 2017-5, 2017-6, 2017-7]
+    exam_ids = ["2017-1", "2017-2", "2017-3", "2017-4", "2017-5", "2017-6", "2017-7"]
     # separate
-    update_cgpa(1421106000, 1421106250)
+    #update_sgpa(1421106000, 1421106650)
+    update_cgpa(1421106000, 1421106650)
     # separate
     for f in output_files:
         if len(exam_ids) == 0:
@@ -411,28 +407,28 @@ def main():
         data.sort(key=itemgetter(2))
         # separate
 
-        newdata = []
-        for i in range(len(data)):
-            newdata.append(filter_data(data[i]))
-        insert_grades(newdata)
-        #either grade or sgpa
-        insert_sgpa(newdata)
+        # newdata = []
+        # for i in range(len(data)):
+        #     newdata.append(filter_data(data[i]))
+        # insert_grades(newdata)
+        # # either grade or sgpa
+        # insert_sgpa(newdata)
 
         # separate
 
         # for i in data:
         #     insert_student(i, '2018', 'le')
 
-    # separate
-    # d = {}
-    # for i in data:
-    #     res = get_subject_credit_combo(i)
-    #     for j in res:
-    #         if j[0] not in d:
-    #             d[j[0]] = tuple([j[1], j[2]])
-    # print 'INSERT INTO `subject` (code, name, credits) VALUES',
-    # for i in d:
-    #     print '("' + i + '","' + d[i][1] + '",' + d[i][0] + '),'
+        # separate
+        # d = {}
+        # for i in data:
+        #     res = get_subject_credit_combo(i)
+        #     for j in res:
+        #         if j[0] not in d:
+        #             d[j[0]] = tuple([j[1], j[2]])
+        # print 'INSERT INTO `subject` (code, name, credits) VALUES',
+        # for i in d:
+        #     print '("' + i + '","' + d[i][1] + '",' + d[i][0] + '),'
 
 
 if __name__ == '__main__':

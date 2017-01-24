@@ -1,0 +1,47 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CommitToDB.py	Python/CommitToDB.py	1;"	kind:file	line:1
+NewStudents	Python/updater.py	/^class NewStudents(PreprocessData):$/;"	kind:class	line:87
+PreprocessData	Python/updater.py	/^class PreprocessData:$/;"	kind:class	line:18
+UpdateGradeCG	Python/updater.py	/^class UpdateGradeCG(PreprocessData):$/;"	kind:class	line:41
+Webscraper	Python/scraper.py	/^class Webscraper(threading.Thread):$/;"	kind:class	line:12
+__branch_helper	Python/updater.py	/^    def __branch_helper(branch_name):$/;"	kind:member	line:132
+__find_by_xpath	Python/scraper.py	/^    def __find_by_xpath(driver, locator, timeout=4):$/;"	kind:member	line:21
+__get_data	Python/updater.py	/^    def __get_data(self):$/;"	kind:member	line:27
+__get_subject_credit_combo	Python/updater.py	/^    def __get_subject_credit_combo(data):$/;"	kind:member	line:110
+__init__	Python/scraper.py	/^    def __init__(self, start, end, birthday, url):$/;"	kind:member	line:13
+__init__	Python/updater.py	/^    def __init__(self, exam_id, batch_year, student_type, input_file):$/;"	kind:member	line:19
+branch_helper	Python/updater.py	/^def branch_helper(branch_name):$/;"	kind:function	line:258
+clean	Python/scraper.py	/^def clean():$/;"	kind:function	line:123
+conn	Python/CommitToDB.py	/^conn = pymysql.connect(host='localhost', user='root', passwd='root', db='results_db')$/;"	kind:variable	line:3
+cursor	Python/CommitToDB.py	/^cursor = conn.cursor()$/;"	kind:variable	line:4
+driver	Python/testing.py	/^driver = webdriver.Chrome('\/usr\/lib\/chromium-browser\/chromedriver')$/;"	kind:variable	line:16
+filter_data	Python/updater.py	/^    def filter_data(self):$/;"	kind:member	line:62
+filter_data	Python/updater.py	/^def filter_data(data):$/;"	kind:function	line:170
+find_by_xpath	Python/testing.py	/^def find_by_xpath(driver, locator, timeout=2):$/;"	kind:function	line:11
+get_data	Python/updater.py	/^def get_data(input_file):$/;"	kind:function	line:154
+get_subject_credit_combo	Python/updater.py	/^def get_subject_credit_combo(data):$/;"	kind:function	line:285
+i	Python/CommitToDB.py	/^    i = 0$/;"	kind:variable	line:15
+i	Python/CommitToDB.py	/^    i = 0$/;"	kind:variable	line:23
+i	Python/CommitToDB.py	/^    i = 0$/;"	kind:variable	line:7
+i	Python/testing.py	/^i = 2$/;"	kind:variable	line:19
+insert_grades	Python/updater.py	/^def insert_grades(data2):$/;"	kind:function	line:216
+insert_sgpa	Python/updater.py	/^def insert_sgpa(data2):$/;"	kind:function	line:200
+insert_student	Python/updater.py	/^def insert_student(data, batch, student_type='reg'):$/;"	kind:function	line:243
+main	Python/scraper.py	/^def main():$/;"	kind:function	line:131
+main	Python/updater.py	/^def main():$/;"	kind:function	line:380
+porting	Python/updater.py	/^def porting():$/;"	kind:function	line:349
+print_cg	Python/updater.py	/^    def print_cg(self):$/;"	kind:member	line:53
+print_grades	Python/updater.py	/^    def print_grades(self):$/;"	kind:member	line:42
+print_student	Python/updater.py	/^    def print_student(self):$/;"	kind:member	line:88
+print_subjects	Python/updater.py	/^    def print_subjects(self):$/;"	kind:member	line:98
+run	Python/scraper.py	/^    def run(self):$/;"	kind:member	line:27
+scraper.py	Python/scraper.py	1;"	kind:file	line:1
+testing.py	Python/testing.py	1;"	kind:file	line:1
+update_cgpa	Python/updater.py	/^def update_cgpa(start, end):$/;"	kind:function	line:360
+update_sgpa	Python/updater.py	/^def update_sgpa(start, end):$/;"	kind:function	line:308
+updater.py	Python/updater.py	1;"	kind:file	line:1

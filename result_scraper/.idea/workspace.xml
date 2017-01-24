@@ -2,20 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af40d490-7cf7-4b5c-b2ae-1d2483b6606a" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CommitToDB.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/geckodriver.log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/insert.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/scraper.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sql_queries/insert.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sql_queries/output.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/update.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/updater.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/updaterV2.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/databases/results_db.sql" afterPath="$PROJECT_DIR$/databases/results_db.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Python/CommitToDB.py" afterPath="$PROJECT_DIR$/Python/CommitToDB.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Python/scraper.py" afterPath="$PROJECT_DIR$/Python/scraper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Python/updater.py" afterPath="$PROJECT_DIR$/Python/updater.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/o1.csv" afterPath="$PROJECT_DIR$/inputs/o1.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/o2.csv" afterPath="$PROJECT_DIR$/inputs/o2.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/o3.csv" afterPath="$PROJECT_DIR$/inputs/o3.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/o4.csv" afterPath="$PROJECT_DIR$/inputs/o4.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/inputs/o5.csv" afterPath="$PROJECT_DIR$/inputs/o5.csv" />
@@ -45,10 +36,8 @@
         <entry file="file://$PROJECT_DIR$/Python/CommitToDB.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+              <caret line="1" column="10" lean-forward="true" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -56,21 +45,8 @@
       <file leaf-file-name="scraper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Python/scraper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="99" column="61" lean-forward="false" selection-start-line="99" selection-start-column="61" selection-end-line="99" selection-end-column="61" />
-              <caret line="129" column="29" lean-forward="false" selection-start-line="129" selection-start-column="29" selection-end-line="129" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#16#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="updater.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Python/updater.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="387" column="20" lean-forward="false" selection-start-line="387" selection-start-column="20" selection-end-line="387" selection-end-column="20" />
+            <state relative-caret-position="365">
+              <caret line="99" column="46" lean-forward="true" selection-start-line="99" selection-start-column="46" selection-end-line="99" selection-end-column="46" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -78,11 +54,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="update.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="updater.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Python/updater.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="398" column="31" lean-forward="false" selection-start-line="398" selection-start-column="31" selection-end-line="398" selection-end-column="31" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="update.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql_queries/update.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="463">
+              <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -101,6 +89,9 @@
     <findStrings>
       <find>ign</find>
       <find>fak</find>
+      <find>cnt</find>
+      <find>semester_id</find>
+      <find>1301106275</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -134,9 +125,10 @@
         <option value="$PROJECT_DIR$/test_newStudents.py" />
         <option value="$PROJECT_DIR$/scraper.py" />
         <option value="$PROJECT_DIR$/updater.py" />
-        <option value="$PROJECT_DIR$/Python/scraper.py" />
-        <option value="$PROJECT_DIR$/Python/updater.py" />
         <option value="$PROJECT_DIR$/sql_queries/update.txt" />
+        <option value="$PROJECT_DIR$/Python/scraper.py" />
+        <option value="$PROJECT_DIR$/Python/CommitToDB.py" />
+        <option value="$PROJECT_DIR$/Python/updater.py" />
       </list>
     </option>
   </component>
@@ -214,6 +206,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="databases" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="result_scraper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="result_scraper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Python" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -228,41 +234,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../competitive" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="TEXT&#10;Python" />
   </component>
-  <component name="RunManager" selected="Python.updater (1)">
-    <configuration default="false" name="scraper" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="testapp" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scraper.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="updaterV2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="testapp" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/updaterV2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.CommitToDB">
     <configuration default="false" name="test_newStudents" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -310,6 +282,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="testapp" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Python/updater.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="scraper (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="testapp" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Python/scraper.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="CommitToDB" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="testapp" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Python/CommitToDB.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -449,19 +455,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.scraper" />
-      <item index="1" class="java.lang.String" itemvalue="Python.updaterV2" />
-      <item index="2" class="java.lang.String" itemvalue="Python.test_newStudents" />
-      <item index="3" class="java.lang.String" itemvalue="Python.updater" />
-      <item index="4" class="java.lang.String" itemvalue="Python.updater (1)" />
+      <item index="0" class="java.lang.String" itemvalue="Python.test_newStudents" />
+      <item index="1" class="java.lang.String" itemvalue="Python.updater" />
+      <item index="2" class="java.lang.String" itemvalue="Python.updater (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Python.scraper (1)" />
+      <item index="4" class="java.lang.String" itemvalue="Python.CommitToDB" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.updater (1)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.updater" />
-        <item index="2" class="java.lang.String" itemvalue="Python.test_newStudents" />
-        <item index="3" class="java.lang.String" itemvalue="Python.scraper" />
-        <item index="4" class="java.lang.String" itemvalue="Python.updaterV2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.CommitToDB" />
+        <item index="1" class="java.lang.String" itemvalue="Python.updater (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.scraper (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.updater" />
+        <item index="4" class="java.lang.String" itemvalue="Python.test_newStudents" />
       </list>
     </recent_temporary>
   </component>
@@ -505,17 +511,17 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="30" width="1368" height="739" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1" y="30" width="1368" height="739" extended-state="7" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12565055" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33011273" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.49436393" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2431562" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16184351" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39968896" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -564,16 +570,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.py" />
-    <entry file="file://$PROJECT_DIR$/main.py" />
-    <entry file="file://$PROJECT_DIR$/main.py" />
-    <entry file="file://$USER_HOME$/code/result-db/scraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="11" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="81" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database.py" />
     <entry file="file://$PROJECT_DIR$/.~lock.databaseactive.csv#" />
     <entry file="file://$PROJECT_DIR$/database8th.csv" />
@@ -613,10 +609,51 @@
     <entry file="file://$PROJECT_DIR$/o7.csv" />
     <entry file="file://$USER_HOME$/Downloads/download" />
     <entry file="file://$PROJECT_DIR$/o3.csv" />
-    <entry file="file://$PROJECT_DIR$/geckodriver.log">
+    <entry file="file://$PROJECT_DIR$/geckodriver.log" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3960">
+          <caret line="220" column="15" lean-forward="false" selection-start-line="220" selection-start-column="15" selection-end-line="220" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/updaterV2.py" />
+    <entry file="file://$PROJECT_DIR$/insert.txt" />
+    <entry file="file://$PROJECT_DIR$/output.txt" />
+    <entry file="file://$PROJECT_DIR$/CommitToDB.py" />
+    <entry file="file://$PROJECT_DIR$/update.txt" />
+    <entry file="file://$PROJECT_DIR$/scraper.py" />
+    <entry file="file://$PROJECT_DIR$/updater.py" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="49" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Python/testing.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#16#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inputs/o6.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inputs/o7.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -624,6 +661,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/inputs/o1.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -631,26 +677,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3960">
-          <caret line="220" column="15" lean-forward="false" selection-start-line="220" selection-start-column="15" selection-end-line="220" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/updaterV2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="23" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/insert.txt">
+    <entry file="file://$PROJECT_DIR$/inputs/o4.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -658,34 +689,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output.txt">
+    <entry file="file://$PROJECT_DIR$/inputs/o5.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommitToDB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="66" lean-forward="false" selection-start-line="2" selection-start-column="66" selection-end-line="2" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/update.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scraper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="151" column="29" lean-forward="false" selection-start-line="151" selection-start-column="29" selection-end-line="151" selection-end-column="29" />
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -706,63 +713,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/updater.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
-          <caret line="418" column="8" lean-forward="false" selection-start-line="418" selection-start-column="8" selection-end-line="418" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inputs/o7.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/inputs/o1.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="49" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Python/CommitToDB.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+          <caret line="1" column="10" lean-forward="true" selection-start-line="1" selection-start-column="10" selection-end-line="1" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Python/scraper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="99" column="61" lean-forward="false" selection-start-line="99" selection-start-column="61" selection-end-line="99" selection-end-column="61" />
-          <caret line="129" column="29" lean-forward="false" selection-start-line="129" selection-start-column="29" selection-end-line="129" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Python/updater.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="387" column="20" lean-forward="false" selection-start-line="387" selection-start-column="20" selection-end-line="387" selection-end-column="20" />
+        <state relative-caret-position="365">
+          <caret line="99" column="46" lean-forward="true" selection-start-line="99" selection-start-column="46" selection-end-line="99" selection-end-column="46" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -771,9 +733,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sql_queries/update.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="463">
+          <caret line="152" column="0" lean-forward="false" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Python/updater.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="398" column="31" lean-forward="false" selection-start-line="398" selection-start-column="31" selection-end-line="398" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

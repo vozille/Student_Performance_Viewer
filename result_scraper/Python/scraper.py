@@ -1,15 +1,12 @@
+import sys
 import threading
 import time
 from datetime import date
-import sys
+
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
-
-
-cnt = 0
 
 
 class Webscraper(threading.Thread):
@@ -21,14 +18,13 @@ class Webscraper(threading.Thread):
         self.url = url
 
     @staticmethod
-    def __find_by_xpath(driver, locator, timeout=2):
+    def __find_by_xpath(driver, locator, timeout=4):
         element = WebDriverWait(driver, timeout).until(
             ec.presence_of_element_located((By.XPATH, locator))
         )
         return element
 
     def run(self):
-        global cnt
         driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
         driver.get(self.url)
         mybirthday = self.birthday.strftime("%d/%m/%Y")
@@ -65,15 +61,16 @@ class Webscraper(threading.Thread):
                                 """
                                 The webpage has been loaded, do anything you want
                                 """
-                                self.__find_by_xpath(driver, '//*[@id="'+result_link+'"]').click()
+                                self.__find_by_xpath(driver, '//*[@id="' + result_link + '"]').click()
                                 name = self.__find_by_xpath(driver, '//*[@id="lblName"]').text
                                 branch = self.__find_by_xpath(driver, '//*[@id="lblResultName"]').text
-                                subjects = self.__find_by_xpath(driver, '//*[@id="tblBasicDetail"]/table/tbody/tr[8]/td').text
+                                subjects = self.__find_by_xpath(driver,
+                                                                '//*[@id="tblBasicDetail"]/table/tbody/tr[8]/td').text
                                 # remove commas
                                 name = name.replace(",", "")
                                 branch.replace(",", "")
                                 branch = branch.split(',')
-                                cnt += 1
+
                                 """
                                 What I am doing here is printing data so that i can save it later in a csv file
                                 And upload it later to a database
@@ -110,7 +107,7 @@ class Webscraper(threading.Thread):
                                     print res + ',',
                                 print
                                 sys.stdout = sys.__stdout__
-                                time.sleep(0.5)
+                                time.sleep(0.2)
                                 # uncomment to do semester wise scraping
                                 # break
                         except:
@@ -136,14 +133,15 @@ def main():
     # dont know why this date works for everyone
     bday = date(1995, 1, 1)
     # start roll
-    start, end = 1421106001, 1421106230
+    start, end = 1401106001, 1401106610
     if abs(start - end) > 1000:
         raise Exception("Too many values to extract, use proper limits")
     i = start
     threads = []
     while i < end:
-        increment = 40
-        t = Webscraper(i, i + increment, bday, 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
+        increment = 180
+        t = Webscraper(i, i + increment, bday,
+                       'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx')
         threads.append(t)
         i += increment
 
