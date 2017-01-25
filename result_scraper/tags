@@ -5,6 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 CommitToDB.py	Python/CommitToDB.py	1;"	kind:file	line:1
+ExcelExporter.py	Python/ExcelExporter.py	1;"	kind:file	line:1
 NewStudents	Python/updater.py	/^class NewStudents(PreprocessData):$/;"	kind:class	line:87
 PreprocessData	Python/updater.py	/^class PreprocessData:$/;"	kind:class	line:18
 UpdateGradeCG	Python/updater.py	/^class UpdateGradeCG(PreprocessData):$/;"	kind:class	line:41
@@ -15,10 +16,14 @@ __get_data	Python/updater.py	/^    def __get_data(self):$/;"	kind:member	line:27
 __get_subject_credit_combo	Python/updater.py	/^    def __get_subject_credit_combo(data):$/;"	kind:member	line:110
 __init__	Python/scraper.py	/^    def __init__(self, start, end, birthday, url):$/;"	kind:member	line:13
 __init__	Python/updater.py	/^    def __init__(self, exam_id, batch_year, student_type, input_file):$/;"	kind:member	line:19
+batches	Python/ExcelExporter.py	/^batches = [2014, 2015, 2016]$/;"	kind:variable	line:1
 branch_helper	Python/updater.py	/^def branch_helper(branch_name):$/;"	kind:function	line:258
+branch_id	Python/ExcelExporter.py	/^branch_id = []$/;"	kind:variable	line:4
 clean	Python/scraper.py	/^def clean():$/;"	kind:function	line:123
 conn	Python/CommitToDB.py	/^conn = pymysql.connect(host='localhost', user='root', passwd='root', db='results_db')$/;"	kind:variable	line:3
+ctr	Python/ExcelExporter.py	/^        ctr = 0$/;"	kind:variable	line:32
 cursor	Python/CommitToDB.py	/^cursor = conn.cursor()$/;"	kind:variable	line:4
+d	Python/ExcelExporter.py	/^d = {}$/;"	kind:variable	line:8
 driver	Python/testing.py	/^driver = webdriver.Chrome('\/usr\/lib\/chromium-browser\/chromedriver')$/;"	kind:variable	line:16
 filter_data	Python/updater.py	/^    def filter_data(self):$/;"	kind:member	line:62
 filter_data	Python/updater.py	/^def filter_data(data):$/;"	kind:function	line:170
@@ -34,11 +39,14 @@ insert_sgpa	Python/updater.py	/^def insert_sgpa(data2):$/;"	kind:function	line:2
 insert_student	Python/updater.py	/^def insert_student(data, batch, student_type='reg'):$/;"	kind:function	line:243
 main	Python/scraper.py	/^def main():$/;"	kind:function	line:131
 main	Python/updater.py	/^def main():$/;"	kind:function	line:380
+name	Python/ExcelExporter.py	/^        name = '.\/results\/' + str(i) + '_' + j + '.csv'$/;"	kind:variable	line:30
 porting	Python/updater.py	/^def porting():$/;"	kind:function	line:349
 print_cg	Python/updater.py	/^    def print_cg(self):$/;"	kind:member	line:53
 print_grades	Python/updater.py	/^    def print_grades(self):$/;"	kind:member	line:42
 print_student	Python/updater.py	/^    def print_student(self):$/;"	kind:member	line:88
 print_subjects	Python/updater.py	/^    def print_subjects(self):$/;"	kind:member	line:98
+q	Python/ExcelExporter.py	/^q = 'SELECT code FROM branch'$/;"	kind:variable	line:2
+rolls	Python/ExcelExporter.py	/^        rolls = []$/;"	kind:variable	line:19
 run	Python/scraper.py	/^    def run(self):$/;"	kind:member	line:27
 scraper.py	Python/scraper.py	1;"	kind:file	line:1
 testing.py	Python/testing.py	1;"	kind:file	line:1
