@@ -92,7 +92,8 @@ class PreprocessData:
             self._sgpa_cgpa_data.append([roll, self.__current_exam_id, subjects, sgpa, credit])
 
     def _add_subject_to_db(self):
-        sys.stdout = sys.__stdout__
+
+        self.__clean_files()
         sys.stdout = open(self._UPDATE_PATH, 'w')
 
         if self._connection is None:
