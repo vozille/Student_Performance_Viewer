@@ -1,6 +1,5 @@
 import csv
 import sys
-from collections import OrderedDict
 from operator import itemgetter
 import pymysql
 
@@ -92,6 +91,41 @@ class PreprocessData:
                 pass
             self._sgpa_cgpa_data.append([roll, self.__current_exam_id, subjects, sgpa, credit])
 
+    def _add_subject_to_db(self):
+        sys.stdout = sys.__stdout__
+        sys.stdout = open(self._UPDATE_PATH, 'w')
+
+        if self._connection is None:
+            self._connect_to_database()
+
+        for ifile in self._input_files:
+            self._get_data(ifile)
+            for data in self._data:
+                subject_list = []
+                for i in range(3, len(data) - 2):
+                    k = map(str, data[i].split())
+                    try:
+                        subject_list.append([k[1], k[-2]])
+                        subname = ''
+                        k.pop(0)
+                        k.pop(0)
+                        while True:
+                            try:
+                                int(k[0])
+                                break
+                            except ValueError:
+                                subname += k[0] + ' '
+                                k.pop(0)
+                        subject_list[-1].append(subname[:-1])
+                    except IndexError:
+                        break
+                for subject in subject_list:
+                    print 'INSERT IGNORE INTO `subject`(`code`, `name`, `credits`)' \
+                          ' VALUES ("' + subject[0] + '", "'  + subject[2] + '", ' + subject[1] + ');'
+
+        print "Run CommitToDB to commit the changes to database and rerun this program again to continue"
+        exit(0)
+
     @staticmethod
     def _branch_helper(branch_name):
 
@@ -172,15 +206,25 @@ class GenerateSGCG(PreprocessData):
                         0] + '"'
                     cursor.execute(query)
                     if cursor.rowcount != 0:
-
                         print 'UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
                             0] + '" and subject_id ="' + data[2][0][0] + '";'
                         pass
                     else:
-                        sys.stdout = open(self._INSERT_GRADES_PATH, 'a')
-                        print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
-                        print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(
-                            data[2][0][-1]) + '");'
+                        cursor2 = self._connection.cursor()
+                        query2 = 'SELECT * FROM subject WHERE code = "' + data[2][0][0] + '";'
+                        cursor2.execute(query2)
+
+                        # subject not present in db, add it
+
+                        if cursor2.rowcount != 0:
+                            sys.stdout = sys.__stdout__
+                            print 'Subject missing, generating files to commit'
+                            self._add_subject_to_db()
+                        else:
+                            sys.stdout = open(self._INSERT_GRADES_PATH, 'a')
+                            print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
+                            print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(
+                                data[2][0][-1]) + '");'
                     data[2].pop(0)
         sys.stdout = sys.__stdout__
 
@@ -278,34 +322,11 @@ class NewStudents(PreprocessData):
                       ',"' + self._student_type + '");'
 
 
-def get_subject_credit_combo(data):
-    # TODO : add database connection to better this
-    res = []
-    for i in range(3, len(data) - 2):
-        k = map(str, data[i].split())
-        try:
-            res.append([k[1], k[-2]])
-            subname = ''
-            k.pop(0)
-            k.pop(0)
-            while True:
-                try:
-                    int(k[0])
-                    break
-                except ValueError:
-                    subname += k[0] + ' '
-                    k.pop(0)
-            res[-1].append(subname[:-1])
-        except IndexError:
-            return res
-    return res
-
-
 def main():
     student_type = StudentType()
     s = GenerateSGCG(2017, student_type.regular)
     s.insert_grades()
-    s.insert_sgpa()
+
 
 if __name__ == '__main__':
     main()
