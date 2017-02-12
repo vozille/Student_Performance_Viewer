@@ -1,6 +1,9 @@
 import csv
 import sys
+import result_scraper.Python.Constants as Constants
 from operator import itemgetter
+
+
 import pymysql
 
 
@@ -13,17 +16,11 @@ class StudentType:
 class PreprocessData:
     def __init__(self, batch_year, student_type):
 
-        self.__total_semesters = 8
-        self.__input_path = '../inputs/'
+        self.__total_semesters = 10
+        self.__input_path = Constants.input_path
         self._input_files = []
-        self._input_files.append(self.__input_path + 'o1.csv')
-        self._input_files.append(self.__input_path + 'o2.csv')
-        self._input_files.append(self.__input_path + 'o3.csv')
-        self._input_files.append(self.__input_path + 'o4.csv')
-        self._input_files.append(self.__input_path + 'o5.csv')
-        self._input_files.append(self.__input_path + 'o6.csv')
-        self._input_files.append(self.__input_path + 'o7.csv')
-        self._input_files.append(self.__input_path + 'o8.csv')
+        for i in range(1, 11):
+            self._input_files.append(self.__input_path + str(i) + ".csv")
         self._data = None
         self.__exam_id = None
         self.__current_exam_id = None
@@ -33,10 +30,10 @@ class PreprocessData:
         self._connection = None
         self._sgpa_cgpa_data = []
 
-        self._INSERT_SGPA_PATH = '../sql_queries/insert_sgpa.txt'
-        self._INSERT_GRADES_PATH = '../sql_queries/update.txt'
-        self._INSERT_NEW_STUDENT_PATH = '../sql_queries/insert_new_students.txt'
-        self._UPDATE_PATH = '../sql_queries/update.txt'
+        self._INSERT_SGPA_PATH = Constants.INSERT_SGPA_PATH
+        self._INSERT_GRADES_PATH = Constants.INSERT_GRADES_PATH
+        self._INSERT_NEW_STUDENT_PATH = Constants.INSERT_NEW_STUDENT_PATH
+        self._UPDATE_PATH = Constants.UPDATE_PATH
 
         self.__clean_files()
         self.__generate_exam_ids()
@@ -48,7 +45,9 @@ class PreprocessData:
 
     def _connect_to_database(self):
         try:
-            self._connection = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', db='results_db')
+            self._connection = pymysql.connect(host=Constants.db_host,
+                                               port=Constants.port, user=Constants.db_user,
+                                               passwd=Constants.db_password, db=Constants.db_name)
         except:
             pass
 
@@ -56,12 +55,8 @@ class PreprocessData:
         data = []
         with open(input_file, 'r') as csvFile:
             reader = csv.reader(csvFile)
-            flag = False
             for i in reader:
-                if not flag:
-                    flag = True
-                else:
-                    data.append(i)
+                data.append(i)
         data.sort(key=itemgetter(2))
         self._data = data
         self.__current_exam_id = self.__exam_id[self._input_files.index(input_file)]
@@ -74,14 +69,14 @@ class PreprocessData:
             i = 3
             while True:
                 try:
-                    element = map(str, row[i].split(' '))
+                    element = list(map(str, row[i].split(' ')))
                     element.pop(0)
                     int(element[0])
                     i += 1
                     subjects.append(tuple([element[1], element[-1], self.__current_exam_id]))
                 except ValueError:
                     break
-            element = map(str, row[i].split(' '))
+            element = list(map(str, row[i].split(' ')))
             element.pop(0)
             credit, sgpa = '', ''
             try:
@@ -103,28 +98,28 @@ class PreprocessData:
             self._get_data(ifile)
             for data in self._data:
                 subject_list = []
-                for i in range(3, len(data) - 2):
-                    k = map(str, data[i].split())
+                for element in range(3, len(data) - 1):
+                    raw_subject_data = list(map(str, data[element].split()))
                     try:
-                        subject_list.append([k[1], k[-2]])
+                        subject_list.append([raw_subject_data[1], raw_subject_data[-2]])
                         subname = ''
-                        k.pop(0)
-                        k.pop(0)
+                        raw_subject_data.pop(0)
+                        raw_subject_data.pop(0)
                         while True:
                             try:
-                                int(k[0])
+                                int(raw_subject_data[0])
                                 break
                             except ValueError:
-                                subname += k[0] + ' '
-                                k.pop(0)
+                                subname += raw_subject_data[0] + ' '
+                                raw_subject_data.pop(0)
                         subject_list[-1].append(subname[:-1])
                     except IndexError:
                         break
                 for subject in subject_list:
-                    print 'INSERT IGNORE INTO `subject`(`code`, `name`, `credits`)' \
-                          ' VALUES ("' + subject[0] + '", "'  + subject[2] + '", ' + subject[1] + ');'
+                    print('INSERT IGNORE INTO `subject`(`code`, `name`, `credits`)'
+                          ' VALUES ("' + subject[0] + '", "' + subject[2] + '", ' + subject[1] + ');')
 
-        print "Run CommitToDB to commit the changes to database and rerun this program again to continue"
+        # print("Run CommitToDB to commit the changes to database and rerun this program again to continue")
         exit(0)
 
     @staticmethod
@@ -154,6 +149,8 @@ class PreprocessData:
             return "TE"
         if "CIVIL" in branch_name:
             return "CE"
+        if "ARCHITECTURE" in branch_name:
+            return "ARCH"
         return "chutiya"
 
     def __clean_files(self):
@@ -183,8 +180,8 @@ class GenerateSGCG(PreprocessData):
                 q = 'SELECT * FROM exam WHERE student_id ="' + data[0] + '" and semester_id = "' + str(data[1]) + '"'
                 cursor.execute(q)
                 if cursor.rowcount == 0:
-                    print 'INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ',
-                    print '("' + data[0] + '","' + str(data[1]) + '",' + str(data[3]) + ',' + str(data[-1]) + ');'
+                    print('INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ',end=' ')
+                    print('("' + data[0] + '","' + str(data[1]) + '",' + str(data[3]) + ',' + str(data[-1]) + ');')
         sys.stdout = sys.__stdout__
 
     def insert_grades(self):
@@ -199,7 +196,6 @@ class GenerateSGCG(PreprocessData):
             self._filter_data_sgpa_grade()
 
             cursor = self._connection.cursor()
-
             for row in self._sgpa_cgpa_data:
                 data = row
                 while len(data[2]) > 0:
@@ -207,8 +203,8 @@ class GenerateSGCG(PreprocessData):
                         0] + '"'
                     cursor.execute(query)
                     if cursor.rowcount != 0:
-                        print 'UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
-                            0] + '" and subject_id ="' + data[2][0][0] + '";'
+                        print('UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
+                            0] + '" and subject_id ="' + data[2][0][0] + '";')
                         pass
                     else:
                         cursor2 = self._connection.cursor()
@@ -217,15 +213,15 @@ class GenerateSGCG(PreprocessData):
 
                         # subject not present in db, add it
 
-                        if cursor2.rowcount != 0:
+                        if cursor2.rowcount == 0:
                             sys.stdout = sys.__stdout__
-                            print 'Subject missing, generating files to commit'
+                            print('Subject missing, generating files to commit')
                             self._add_subject_to_db()
                         else:
                             sys.stdout = open(self._INSERT_GRADES_PATH, 'a')
-                            print 'INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
-                            print '("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(
-                                data[2][0][-1]) + '");'
+                            print('INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',end=' ')
+                            print('("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(
+                                data[2][0][-1]) + '");')
                     data[2].pop(0)
         sys.stdout = sys.__stdout__
 
@@ -272,8 +268,8 @@ class GenerateSGCG(PreprocessData):
                     total_credits += credit
                 new_sgpa = round(earned_credits * 10.0 / total_credits, 2)
                 sys.stdout = open(self._UPDATE_PATH, 'a')
-                print 'UPDATE `exam` SET `sgpa` =' + str(new_sgpa) + ' WHERE `semester_id`= "' + str(
-                    sem) + '" AND `student_id`="' + str(roll) + '";'
+                print('UPDATE `exam` SET `sgpa` =' + str(new_sgpa) + ' WHERE `semester_id`= "' + str(
+                    sem) + '" AND `student_id`="' + str(roll) + '";')
 
     def update_cgpa(self, start, end):
 
@@ -296,7 +292,7 @@ class GenerateSGCG(PreprocessData):
                 credits_secured += float(row[0]) * float(row[1])
             cgpa = round(credits_secured / total_credits, 2)
             sys.stdout = open(self._UPDATE_PATH, 'a')
-            print 'UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";'
+            print('UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";')
 
 
 class NewStudents(PreprocessData):
@@ -309,25 +305,33 @@ class NewStudents(PreprocessData):
             self._connect_to_database()
 
         cursor = self._connection.cursor()
-
+        visited = set()
         for ifile in self._input_files:
             self._get_data(ifile)
             for data in self._data:
+
                 q = 'SELECT * FROM student WHERE regno ="' + data[2] + '";'
                 cursor.execute(q)
-                if cursor.rowcount == 0:
+                if cursor.rowcount != 0:
                     continue
-                print 'INSERT IGNORE INTO `student` (regno, name, branch_id, batch, cgpa, course) VALUES',
-                print '("' + data[2] + '","' + data[0][:-1] + '","' + self._branch_helper(data[1]) + '",' + \
-                      str(self._batch_year) + "," + "null" + \
-                      ',"' + self._student_type + '");'
+                if data[2] not in visited:
+                    print('INSERT INTO `student` (regno, name, branch_id, batch, cgpa, course) VALUES', end=' ')
+                    print('("' + data[2] + '","' + data[0][:-1] + '","' + self._branch_helper(data[1]) + '",' + \
+                          str(self._batch_year) + "," + "null" + \
+                          ',"' + self._student_type + '");')
+                    visited.add(data[2])
+
+    def insert_subjects(self):
+        self._add_subject_to_db()
 
 
 def main():
     student_type = StudentType()
-    s = GenerateSGCG(2017, student_type.regular)
-    s.insert_grades()
-
+    s = GenerateSGCG(2018, student_type.regular)
+    # s.insert_grades()
+    # s.insert_sgpa()
+    # s.update_sgpa(1302106000, 1302106040)
+    s.update_cgpa(1302106000, 1302106040)
 
 if __name__ == '__main__':
     main()
