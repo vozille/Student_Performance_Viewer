@@ -1,6 +1,7 @@
 import csv
 import sys
 import result_scraper.Python.Constants as Constants
+import result_scraper.Python.Models as Models
 from operator import itemgetter
 
 
@@ -29,6 +30,7 @@ class PreprocessData:
         self._student_type = student_type
         self._connection = None
         self._sgpa_cgpa_data = []
+        self._new_student_data = []
 
         self._INSERT_SGPA_PATH = Constants.INSERT_SGPA_PATH
         self._INSERT_GRADES_PATH = Constants.INSERT_GRADES_PATH
@@ -84,7 +86,11 @@ class PreprocessData:
                 sgpa = float(element[-1])
             except:
                 pass
-            self._sgpa_cgpa_data.append([roll, self.__current_exam_id, subjects, sgpa, credit])
+            self._sgpa_cgpa_data.append(Models.SgpaCgpaModel(roll, self.__current_exam_id, subjects, sgpa, credit))
+
+    def _filter_data_new_students(self):
+        for row in self._data:
+            self._new_student_data.append(Models.StudentModel(row))
 
     def _add_subject_to_db(self):
 
@@ -177,11 +183,13 @@ class GenerateSGCG(PreprocessData):
             cursor = self._connection.cursor()
 
             for data in self._sgpa_cgpa_data:
-                q = 'SELECT * FROM exam WHERE student_id ="' + data[0] + '" and semester_id = "' + str(data[1]) + '"'
+                q = 'SELECT * FROM exam WHERE student_id ="' + data.student_id + '" and semester_id = "' + str(
+                    data.semester_id) + '"'
                 cursor.execute(q)
                 if cursor.rowcount == 0:
-                    print('INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ',end=' ')
-                    print('("' + data[0] + '","' + str(data[1]) + '",' + str(data[3]) + ',' + str(data[-1]) + ');')
+                    print('INSERT IGNORE INTO exam (student_id,semester_id,sgpa,credits) VALUES ', end=' ')
+                    print('("' + data.student_id + '","' + str(data.semester_id) + '",' + str(data.sgpa) + ',' +
+                          str(data.credits) + ');')
         sys.stdout = sys.__stdout__
 
     def insert_grades(self):
@@ -198,17 +206,18 @@ class GenerateSGCG(PreprocessData):
             cursor = self._connection.cursor()
             for row in self._sgpa_cgpa_data:
                 data = row
-                while len(data[2]) > 0:
-                    query = 'SELECT * FROM score where student_id = "' + data[0] + '" and subject_id ="' + data[2][0][
-                        0] + '"'
+                while len(data.subjects) > 0:
+                    query = 'SELECT * FROM score where student_id = "' + data.student_id + '" and subject_id ="' + \
+                            data.subjects[0].subject_id + '"'
                     cursor.execute(query)
                     if cursor.rowcount != 0:
-                        print('UPDATE `score` SET `grade` = "' + data[2][0][1][0] + '" where student_id = "' + data[
-                            0] + '" and subject_id ="' + data[2][0][0] + '";')
+                        print('UPDATE `score` SET `grade` = "' + data.subjects[0].subject_grade +
+                              '" where student_id = "' +
+                              data.student_id + '" and subject_id ="' + data.subjects[0].subject_id + '";')
                         pass
                     else:
                         cursor2 = self._connection.cursor()
-                        query2 = 'SELECT * FROM subject WHERE code = "' + data[2][0][0] + '";'
+                        query2 = 'SELECT * FROM subject WHERE code = "' + data.subjects[0].subject_id + '";'
                         cursor2.execute(query2)
 
                         # subject not present in db, add it
@@ -219,10 +228,12 @@ class GenerateSGCG(PreprocessData):
                             self._add_subject_to_db()
                         else:
                             sys.stdout = open(self._INSERT_GRADES_PATH, 'a')
-                            print('INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',end=' ')
-                            print('("' + data[0] + '","' + str(data[2][0][0]) + '","' + str(data[2][0][1])[0] + '","' + str(
-                                data[2][0][-1]) + '");')
-                    data[2].pop(0)
+                            print('INSERT IGNORE INTO `score` (student_id, subject_id, grade, semester_id) VALUES',
+                                  end=' ')
+                            print('("' + data.student_id + '","' + str(data.subjects[0].subject_id) + '","' +
+                                  str(data.subjects[0].subject_grade)[0] + '","' + str(
+                                data.subjects[0].semester_id) + '");')
+                    data.subjects.pop(0)
         sys.stdout = sys.__stdout__
 
     def update_sgpa(self, start_roll, end_roll):
@@ -292,7 +303,7 @@ class GenerateSGCG(PreprocessData):
                 credits_secured += float(row[0]) * float(row[1])
             cgpa = round(credits_secured / total_credits, 2)
             sys.stdout = open(self._UPDATE_PATH, 'a')
-            print('UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE regno = "' + str(roll) + '";')
+            print('UPDATE `student` SET `cgpa` = ' + str(cgpa) + ' WHERE student_id = "' + str(roll) + '";')
 
 
 class NewStudents(PreprocessData):
@@ -304,22 +315,23 @@ class NewStudents(PreprocessData):
         if self._connection is None:
             self._connect_to_database()
 
+        self._filter_data_new_students()
+
         cursor = self._connection.cursor()
         visited = set()
         for ifile in self._input_files:
             self._get_data(ifile)
-            for data in self._data:
+            for student in self._new_student_data:
 
-                q = 'SELECT * FROM student WHERE regno ="' + data[2] + '";'
+                q = 'SELECT * FROM student WHERE student_id ="' + student.student_id + '";'
                 cursor.execute(q)
                 if cursor.rowcount != 0:
                     continue
-                if data[2] not in visited:
-                    print('INSERT INTO `student` (regno, name, branch_id, batch, cgpa, course) VALUES', end=' ')
-                    print('("' + data[2] + '","' + data[0][:-1] + '","' + self._branch_helper(data[1]) + '",' + \
-                          str(self._batch_year) + "," + "null" + \
-                          ',"' + self._student_type + '");')
-                    visited.add(data[2])
+                if student.student_id not in visited:
+                    print('INSERT INTO `student` (student_id, name, branch_id, batch, cgpa, course) VALUES', end=' ')
+                    print('("' + student.student_id + '","' + student.name + '","' + self._branch_helper(student.branch) + '",' +
+                          str(self._batch_year) + "," + "null" + ',"' + self._student_type + '");')
+                    visited.add(student.student_id)
 
     def insert_subjects(self):
         self._add_subject_to_db()
@@ -327,11 +339,11 @@ class NewStudents(PreprocessData):
 
 def main():
     student_type = StudentType()
-    s = GenerateSGCG(2018, student_type.regular)
-    # s.insert_grades()
-    # s.insert_sgpa()
-    # s.update_sgpa(1302106000, 1302106040)
-    s.update_cgpa(1302106000, 1302106040)
+    s = GenerateSGCG(2018, student_type.lateral_entry)
+    s.insert_grades()
+    s.insert_sgpa()
+    # s.update_sgpa(1422106000, 1422106040)
+    # s.update_cgpa(1422106000, 1422106040)
 
 if __name__ == '__main__':
     main()

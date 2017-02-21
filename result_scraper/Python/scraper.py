@@ -224,30 +224,34 @@ def main():
     clean()
     # # dont know why this date works for everyone
     # start roll
-    start, end = 1302106001, 1302106040
+    start, end = 1422106001, 1422106012
     if abs(start - end) > 1000:
         raise Exception("Too many values to extract, use proper limits")
-    # i = start
-    # threads = []
-    # while i < end:
-    #     increment = 20
-    #     t = Webscraper(i, i + increment)
-    #     threads.append(t)
-    #     i += increment
-    #
-    # for i in threads:
-    #     i.start()
-    #     # well, opening web browsers takes time
-    #     time.sleep(6)
-    # for i in threads:
-    #     i.join()
+    i = start
+    threads = []
+    while i < end:
+        increment = 20
+        t = Webscraper(i, i + increment)
+        threads.append(t)
+        i += increment
 
-    ids = [347, 400, 475, 534]
-    for i in range(len(ids)):
-        scraper = LegacyWebScraper(1302106001, 1302106032,
-                                   ids[i], Constants.input_path + Constants.output_files_names[i])
-        scraper.start()
-        time.sleep(1)
+    for i in threads:
+        i.start()
+        # well, opening web browsers takes time
+        time.sleep(6)
+    for i in threads:
+        i.join()
+
+    """
+    zone II
+    """
+
+    # ids = [475, 534]
+    # for i in range(len(ids)):
+    #     scraper = LegacyWebScraper(1422106001, 1422106040,
+    #                                ids[i], Constants.input_path + Constants.output_files_names[i])
+    #     scraper.start()
+    #     time.sleep(1)
 
     # t = Webscraper(-1,-1, bday, custom_rolls)
     # t.start()
