@@ -64,7 +64,7 @@ class PreprocessData:
         self.__current_exam_id = self.__exam_id[self._input_files.index(input_file)]
 
     def _filter_data_sgpa_grade(self):
-
+        self._sgpa_cgpa_data = []
         for row in self._data:
             roll = row[2]
             subjects = []
@@ -122,6 +122,8 @@ class PreprocessData:
                     except IndexError:
                         break
                 for subject in subject_list:
+                    if subject[0] == "Credits:":
+                        continue
                     print('INSERT IGNORE INTO `subject`(`code`, `name`, `credits`)'
                           ' VALUES ("' + subject[0] + '", "' + subject[2] + '", ' + subject[1] + ');')
 
@@ -181,7 +183,6 @@ class GenerateSGCG(PreprocessData):
             self._filter_data_sgpa_grade()
 
             cursor = self._connection.cursor()
-
             for data in self._sgpa_cgpa_data:
                 q = 'SELECT * FROM exam WHERE student_id ="' + data.student_id + '" and semester_id = "' + str(
                     data.semester_id) + '"'
@@ -339,11 +340,11 @@ class NewStudents(PreprocessData):
 
 def main():
     student_type = StudentType()
-    s = GenerateSGCG(2018, student_type.lateral_entry)
-    s.insert_grades()
-    s.insert_sgpa()
-    # s.update_sgpa(1422106000, 1422106040)
-    # s.update_cgpa(1422106000, 1422106040)
+    s = GenerateSGCG(2019, student_type.regular)
+    # s.insert_grades()
+    # s.insert_sgpa()
+    # s.update_sgpa(1501106000, 1501106700)
+    s.update_cgpa(1501106000, 1501106700)
 
 if __name__ == '__main__':
     main()

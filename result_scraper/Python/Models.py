@@ -12,7 +12,7 @@ class SgpaCgpaModel:
 class SubjectModel:
     def __init__(self, raw_data):
         self.subject_id = raw_data[0]
-        self.subject_grade = raw_data[1]
+        self.subject_grade = raw_data[1][0]
         self.semester_id = raw_data[2]
 
 

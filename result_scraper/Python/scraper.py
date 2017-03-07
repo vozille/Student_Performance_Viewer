@@ -12,28 +12,31 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Webscraper(threading.Thread):
-    def __init__(self, start, end, custom_rolls=None):
+    def __init__(self, start, end, semester_id=None):
         threading.Thread.__init__(self)
         self._start_roll = start
         self._end_roll = end
         self._birthday = date(1995, 1, 1)
+        self._semester_id = semester_id
         self._url = 'http://www.bputexam.in/StudentSection/ResultPublished/StudentResult.aspx'
-        self._custom_rolls = custom_rolls
+        self._custom_rolls = []
         self._ERROR_URL = "http://www.bputexam.in/ErrorMessege.htm?aspxerrorpath=/" \
                           "StudentSection/ResultPublished/StudentResult.aspx"
 
         self._connection = None
 
-        if self._custom_rolls is None:
+        if self._semester_id is None:
             self._custom_rolls = []
             for roll in range(self._start_roll, self._end_roll):
                 self._custom_rolls.append(roll)
+        else:
+            self._get_missing_rolls(semester_id)
 
     def _connect_to_database(self):
         self._connection = pymysql.connect(host=Constants.db_host, user=Constants.db_user, passwd=Constants.db_password,
                                            db=Constants.db_name)
 
-    def _get_missing_rolls(self, semester_id, limit):
+    def _get_missing_rolls(self, semester_id):
         if self._connection is None:
             self._connect_to_database()
 
@@ -44,11 +47,11 @@ class Webscraper(threading.Thread):
         self._custom_rolls = []
         for row in cursor:
             present.add(int(row[0]))
-        semester_id = semester_id[:-2] + str(int(semester_id[-1]) - 1)
+        semester_id = semester_id[:-1] + str(1)
         query = 'SELECT student_id FROM exam WHERE semester_id = "' + semester_id + '";'
         cursor.execute(query)
         for row in cursor:
-            if int(row[0]) not in present and int(row[0]) < limit:
+            if int(row[0]) not in present:
                 self._custom_rolls.append(row[0])
 
 
@@ -61,13 +64,15 @@ class Webscraper(threading.Thread):
 
     def run(self):
         driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
+        driver.set_window_position(-10000, 0)
+        # driver = webdriver.PhantomJS()
         driver.get(self._url)
         mybirthday = self._birthday.strftime("%d/%m/%Y")
         self.__find_by_xpath(driver, '//*[@id="dpStudentdob_dateInput"]').send_keys(mybirthday)
 
         for roll_num in self._custom_rolls:
-            year_iterator = 2
-            while True:
+            year_iterator = 9
+            while True and year_iterator >= 5 :
                 try:
                     if driver.current_url == self._ERROR_URL:
                         driver.execute_script("window.history.go(-1)")
@@ -75,7 +80,7 @@ class Webscraper(threading.Thread):
                     self.__find_by_xpath(driver, '//*[@id="ddlSession"]').click()
                     self.__find_by_xpath(driver, '//*[@id="ddlSession"]/option[' + str(year_iterator) + ']').click()
                     self.__find_by_xpath(driver, '//*[@id="ddlSession"]').click()
-                    year_iterator += 1
+                    year_iterator -= 1
                     try:
                         self.__find_by_xpath(driver, '//*[@id="txtRegNo"]').clear()
                         self.__find_by_xpath(driver, '//*[@id="txtRegNo"]').send_keys(str(roll_num))
@@ -96,6 +101,7 @@ class Webscraper(threading.Thread):
                             except:
                                 continue
                             # print result_links
+
                             for result_link in result_links:
                                 """
                                 The webpage has been loaded, do anything you want
@@ -224,23 +230,23 @@ def main():
     clean()
     # # dont know why this date works for everyone
     # start roll
-    start, end = 1422106001, 1422106012
-    if abs(start - end) > 1000:
-        raise Exception("Too many values to extract, use proper limits")
-    i = start
-    threads = []
-    while i < end:
-        increment = 20
-        t = Webscraper(i, i + increment)
-        threads.append(t)
-        i += increment
-
-    for i in threads:
-        i.start()
-        # well, opening web browsers takes time
-        time.sleep(6)
-    for i in threads:
-        i.join()
+    # start, end = 1501106001, 1501106600
+    # if abs(start - end) > 1000:
+    #     raise Exception("Too many values to extract, use proper limits")
+    # i = start
+    # threads = []
+    # while i < end:
+    #     increment = 110
+    #     t = Webscraper(i, i + increment)
+    #     threads.append(t)
+    #     i += increment
+    #
+    # for i in threads:
+    #     i.start()
+    #     # well, opening web browsers takes time
+    #     time.sleep(2)
+    # for i in threads:
+    #     i.join()
 
     """
     zone II
@@ -252,6 +258,9 @@ def main():
     #                                ids[i], Constants.input_path + Constants.output_files_names[i])
     #     scraper.start()
     #     time.sleep(1)
+
+    t = Webscraper(-1, -1, "2019-3")
+    t.start()
 
     # t = Webscraper(-1,-1, bday, custom_rolls)
     # t.start()

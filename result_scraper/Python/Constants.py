@@ -1,7 +1,7 @@
 db_host = 'localhost'
 db_user = 'root'
 db_password = 'root'
-db_name = 'results_db_arch'
+db_name = 'results_db'
 port = 3306
 INSERT_SGPA_PATH = '../sql_queries/insert_sgpa.txt'
 INSERT_GRADES_PATH = '../sql_queries/insert_grades.txt'
